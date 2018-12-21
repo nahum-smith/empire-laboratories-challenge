@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
+
+<head>
+  <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="google" value="notranslate">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+  <title>Empire Games</title>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <%= title %></a>
+      </div>
+      <div onclick="logout()" id="navbar"><button class="btn btn-success navbar-right">Logout</button></div>
+    </div>
+    </div>
+  </nav>
+
+  <div class="jumbotron">
+    <div class="container">
+      <h1>Welcome
+        <%= name %>
+      </h1>
+      <p>
+      </p>
+    </div>
+  </div>
+  <hr>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Go To Users</h2>
+        <p>Would you like to see an index of all users</p>
+        <p><a class="btn btn-default" href="/users" role="button">Go Now &raquo;</a></p>
+      </div>
+    </div>
+
+    <hr>
+
+    <footer>
+      <p>&copy; My Empire Games App 2018</p>
+    </footer>
+  </div>
+
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+  <script>
+    function logout() {
+      window.location.href = '/'
+    }
+  </script>
+</body>
+
+</html>

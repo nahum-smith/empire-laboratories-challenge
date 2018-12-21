@@ -1,0 +1,162 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
+
+<head>
+  <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="google" value="notranslate">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+  <title>Empire Games</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <%= title %></a>
+      </div>
+      <div id="navbar" class="navbar">
+        <div class="navbar-form navbar-right">
+          <div class="form-group">
+            <input id="log-email" type="text" placeholder="Email" class="form-control">
+          </div>
+          <div class="form-group">
+            <input id="log-password" type="password" placeholder="Password" class="form-control">
+          </div>
+          <button onclick="login()" type="submit" class="btn btn-success">Sign in</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Register Now</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="text" id="reg-email" name='email' placeholder="Email" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="password" name='password' id="reg-password" placeholder="Password" class="form-control">
+          </div>
+          <button onclick="register()" id="registration-button" class="btn btn-success">Register</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+        <div id="success-alert" class="alert alert-success hidden">
+          You have successfully registered on Empire Games
+        </div>
+        <div id="danger-alert" class="alert alert-danger hidden">
+          There was an error with your registration
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div id="welcome-guest" class="jumbotron">
+    <div class="container">
+      <h1>Hello, Vlad</h1>
+      <p>
+        Will you be able to create a simple app in Express.js with login and registration and post it to github for me
+        to review? With basic connection to a DB, MySQl in this case
+      </p>
+      <p><a class="btn btn-primary btn-lg" href="#" role="button" data-toggle="modal" data-target="#myModal">Register
+          Now! &raquo;</a></p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Go To Users</h2>
+        <p>Would you like to see an index of all users</p>
+        <p><a class="btn btn-default" href="/users" role="button">Go Now &raquo;</a></p>
+      </div>
+    </div>
+
+    <hr>
+
+    <footer>
+      <p>&copy; My Empire Games App 2018</p>
+    </footer>
+  </div>
+
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+  <script>
+    function login() {
+      console.log('logging in')
+      var email = $("#log-email").val()
+      var password = $("#log-password").val()
+      if (email == '' || password == '') {
+        alert('You Must include both an Email and Password to Login, please try again.')
+        return
+      }
+      var body = {
+        email,
+        password
+      }
+      fetch('/auth/login', {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body)
+        })
+        .then(response => response.json())
+        .then(resJson => {
+          $("#log-email").val("")
+          $("#log-password").val("")
+          console.log(resJson)
+          if (resJson.ok) {
+            setTimeout(() => {
+              window.location.href = `./user?email=${email}&password=${password}`
+            }, 1000)
+          } else {
+            alert(resJson.message)
+          }
+        })
+    }
+
+    function register() {
+      var email = $("#reg-email").val()
+      var password = $("#reg-password").val()
+      var body = {
+        email,
+        password
+      }
+      fetch('/auth/register', {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body)
+        })
+        .then(response => response.json())
+        .then(resJson => {
+          console.log(resJson)
+          if (resJson.ok) {
+            $("#success-alert").removeClass("hidden")
+            setTimeout(() => {
+              window.location.href = `./user?email=${email}&password=${password}`
+            }, 1000)
+          } else {
+            $("#danger-alert").removeClass("hidden")
+          }
+        })
+    }
+  </script>
+</body>
+
+</html>
